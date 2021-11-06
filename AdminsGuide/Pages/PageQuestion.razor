@@ -1,0 +1,32 @@
+﻿@page "/quest/{Id:int}"
+
+@inject AdminsGuide.Data.Repository.IGuide SqlGuide
+
+
+@if(guide == null)
+            {
+                @message
+            }
+            else
+            {
+                <h2>
+                    @guide.Question
+                </h2>
+                <hr align="center" width="500" size="2" color="#B950ED" />
+                @((MarkupString)guide.Answer)
+            }
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Guide guide;
+    private string message;
+    protected override void OnInitialized()
+    {
+        guide = SqlGuide.GetGuideById(Id);
+        if(guide == null)
+        {
+            message = "Такого ответа еще не добавили";
+        }
+    }
+}

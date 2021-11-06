@@ -1,0 +1,33 @@
+﻿@page "/"
+
+@inject AdminsGuide.Data.Repository.IGuide SqlGuide;
+
+<h1>Administrator`s Guide</h1>
+@if(!Guides.Any())
+{
+    <h2>Ответы отсутсвуют</h2>
+<p>Добавьте ответы на странице /add</p>}
+            else { 
+<div class="container">
+    @foreach (var item in Guides)
+    {
+         <a class="a-index" href="/quest/@item.Id">
+                 <div class="row border content-index">
+                     <div class="col border-right">@item.Id</div>
+                     <div class="col-10">@item.Question</div>               
+             </div>
+        </a>
+
+    }
+</div>
+}
+@code {
+
+    IEnumerable<Guide> Guides = new List<Guide>();
+
+    protected override void OnInitialized()
+    {
+        Guides = SqlGuide.GetAllGuides().ToList();
+    }
+
+}
