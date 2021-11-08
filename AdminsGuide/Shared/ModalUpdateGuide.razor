@@ -1,0 +1,57 @@
+﻿@inject AdminsGuide.Data.Repository.IGuide SqlGuide
+<div class="modal fade show" id="myModal" style="display:block; background-color: rgba(10,10,10,.8);" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Изменения</h4>
+                <button type="button" class="close" @onclick="@ModalCancel">&times;</button>
+            </div>
+            <div class="modal-body">
+               <input type="text" class="form-control" @bind="Question" />
+                <textarea class="form-control" @bind="Answer" rows="5"></textarea>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn" @onclick="@ModalCancel">Cancel</button>
+                <button type="button" class="btn btn-primary" @onclick=@ModalOk>OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Guide CurrentGuide { get; set; }
+    [Parameter]
+    public EventCallback<bool> IsClosed { get; set; }
+    private string Question { get; set; }
+    private string Answer { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Question = CurrentGuide.Question;
+        Answer = AddSpace(CurrentGuide.Answer);
+    }
+    private Task ModalCancel()
+    {
+        return IsClosed.InvokeAsync(false);
+    }
+
+    private Task ModalOk()
+    {
+        CurrentGuide.Answer = Answer;
+        CurrentGuide.Question = Question;
+        SqlGuide.UpdateGuide(CurrentGuide);
+        return IsClosed.InvokeAsync(true);
+    }
+
+    private string AddSpace(string str)
+    {
+        if (str.Contains("<br>"))
+        {
+            return str.Replace("<br>", "\n");
+        }
+        return str;
+    }
+}

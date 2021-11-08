@@ -37,7 +37,7 @@ namespace AdminsGuide.Data.Repository
 
         public void UpdateGuide(Guide guide)
         {
-            var g = _context.Attach(guide);
+            var g = _context.Guides.Attach(guide);
             g.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
         }

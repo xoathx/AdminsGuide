@@ -9,11 +9,24 @@
             }
             else
             {
-                <h2>
-                    @guide.Question
-                </h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <h2>
+                                @guide.Question
+                            </h2>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-light" @onclick="OpenModal">Изменить</button>
+                        </div>
+                    </div>
+                </div>
                 <hr align="center" width="500" size="2" color="#B950ED" />
-                @((MarkupString)guide.Answer)
+                @((MarkupString)guide.Answer)                
+    @if (DialogOpen)
+                {
+                <ModalUpdateGuide IsClosed="OnDialogClose" CurrentGuide="guide"></ModalUpdateGuide>
+                }
             }
 
 @code {
@@ -21,6 +34,7 @@
     public int Id { get; set; }
     private Guide guide;
     private string message;
+    public bool DialogOpen { get; set; }
     protected override void OnInitialized()
     {
         guide = SqlGuide.GetGuideById(Id);
@@ -28,5 +42,16 @@
         {
             message = "Такого ответа еще не добавили";
         }
+    }
+    private void OnDialogClose()
+    {
+
+        DialogOpen = false;
+
+
+    }
+    private void OpenModal()
+    {
+        DialogOpen = true;
     }
 }

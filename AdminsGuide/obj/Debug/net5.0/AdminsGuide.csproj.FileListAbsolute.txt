@@ -90,3 +90,5 @@ C:\Users\uothy\source\repos\AdminsGuide\AdminsGuide\obj\Debug\net5.0\RazorDeclar
 C:\Users\uothy\source\repos\AdminsGuide\AdminsGuide\obj\Debug\net5.0\Razor\Pages\PageAddGuide.razor.g.cs
 C:\Users\uothy\source\repos\AdminsGuide\AdminsGuide\obj\Debug\net5.0\RazorDeclaration\Pages\PageQuestion.razor.g.cs
 C:\Users\uothy\source\repos\AdminsGuide\AdminsGuide\obj\Debug\net5.0\Razor\Pages\PageQuestion.razor.g.cs
+C:\Users\uothy\source\repos\AdminsGuide\AdminsGuide\obj\Debug\net5.0\RazorDeclaration\Shared\ModalUpdateGuide.razor.g.cs
+C:\Users\uothy\source\repos\AdminsGuide\AdminsGuide\obj\Debug\net5.0\Razor\Shared\ModalUpdateGuide.razor.g.cs

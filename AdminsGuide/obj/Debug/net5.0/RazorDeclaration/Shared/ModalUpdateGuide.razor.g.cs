@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace AdminsGuide.Pages
+namespace AdminsGuide.Shared
 {
     #line hidden
     using System;
@@ -89,8 +89,7 @@ using AdminsGuide.Data.Models;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/quest/{Id:int}")]
-    public partial class PageQuestion : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class ModalUpdateGuide : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -98,31 +97,40 @@ using AdminsGuide.Data.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 32 "C:\Users\uothy\source\repos\AdminsGuide\AdminsGuide\Pages\PageQuestion.razor"
+#line 23 "C:\Users\uothy\source\repos\AdminsGuide\AdminsGuide\Shared\ModalUpdateGuide.razor"
        
     [Parameter]
-    public int Id { get; set; }
-    private Guide guide;
-    private string message;
-    public bool DialogOpen { get; set; }
+    public Guide CurrentGuide { get; set; }
+    [Parameter]
+    public EventCallback<bool> IsClosed { get; set; }
+    private string Question { get; set; }
+    private string Answer { get; set; }
+
     protected override void OnInitialized()
     {
-        guide = SqlGuide.GetGuideById(Id);
-        if(guide == null)
+        Question = CurrentGuide.Question;
+        Answer = AddSpace(CurrentGuide.Answer);
+    }
+    private Task ModalCancel()
+    {
+        return IsClosed.InvokeAsync(false);
+    }
+
+    private Task ModalOk()
+    {
+        CurrentGuide.Answer = Answer;
+        CurrentGuide.Question = Question;
+        SqlGuide.UpdateGuide(CurrentGuide);
+        return IsClosed.InvokeAsync(true);
+    }
+
+    private string AddSpace(string str)
+    {
+        if (str.Contains("<br>"))
         {
-            message = "Такого ответа еще не добавили";
+            return str.Replace("<br>", "\n");
         }
-    }
-    private void OnDialogClose()
-    {
-
-        DialogOpen = false;
-
-
-    }
-    private void OpenModal()
-    {
-        DialogOpen = true;
+        return str;
     }
 
 #line default
